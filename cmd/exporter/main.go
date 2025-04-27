@@ -6,6 +6,8 @@ import (
 	"os"
 
 	"library_exporter/internal/exporter/config"
+	postgresql "library_exporter/internal/exporter/database"
+	"library_exporter/internal/exporter/http"
 	"library_exporter/internal/exporter/rpc"
 )
 
@@ -24,5 +26,15 @@ func main() {
 		panic(fmt.Sprintf("json.Unmarshal Error: %v", err))
 	}
 
-	rpc.Serve(&config)
+	db, err := postgresql.NewDB(config.Postgresql.Url)
+
+	if err != nil {
+		panic(fmt.Sprintf("postgresql.NewDB Error: %v", err))
+	}
+
+	defer db.Close()
+
+	go http.Serve(&config, db)
+
+	rpc.Serve(&config, db)
 }

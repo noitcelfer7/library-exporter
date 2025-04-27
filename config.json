@@ -4,5 +4,14 @@
       "host": "0.0.0.0",
       "port": "22222"
     }
+  },
+  "http": {
+    "server": {
+      "host": "0.0.0.0",
+      "port": "11111"
+    }
+  },
+  "postgresql": {
+    "url": "postgresql://gen_user:N%3ASE7or%7DH%23yJ%23E@93.183.83.223:5432/default_db"
   }
 }
